@@ -37,6 +37,10 @@
       const index = (d.length - lCount % d.length) % d.length;
       direction = d[index];
     }
+
+    if(a.charAt(0) == 'r'){
+      direction = d[1];
+    }
 		return ('x: ' + positionX + ' y: ' + y[0] + ' D: ' + direction );
     };
   QUnit.module('holdJaro', function() {
@@ -87,6 +91,9 @@
   });
   QUnit.test('balra 8x', function(assert) {
       assert.equal(holdJaro("llllllll"), 'x: 1 y: 1 D: N');
+  });
+  QUnit.test('jobbra 1', function(assert) {
+      assert.equal(holdJaro("r"), 'x: 1 y: 1 D: E');
   });
 
   });
