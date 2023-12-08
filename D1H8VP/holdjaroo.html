@@ -9,7 +9,7 @@
 </body>
 <script>
     function holdJaro (a){
-        startDirection = 'E';
+		startDirection = 'E';
 		y = [
 			1, 2, 3, 4, 5, 6, 7, 8,
 		];
@@ -18,16 +18,20 @@
 		];
 		positionX = x[0];
 
-		if(a == 'f'){
-			positionX += 1;
-		}
+		
+		positionX += a.length;
 
 		return ('x: ' + positionX + ' y: 1 D: E' );
     };
-
-    QUnit.module('holdJaro', function() {
-        QUnit.test('előre', function(assert) {
+  QUnit.module('holdJaro', function() {
+    QUnit.test('elore', function(assert) {
       assert.equal(holdJaro("f"), 'x: 2 y: 1 D: E');
+    });
+	QUnit.test('elore2x', function(assert) {
+      assert.equal(holdJaro("ff"), 'x: 3 y: 1 D: E');
+    });
+	QUnit.test('elore3x', function(assert) {
+      assert.equal(holdJaro("fff"), 'x: 4 y: 1 D: E');
     });
 
 
