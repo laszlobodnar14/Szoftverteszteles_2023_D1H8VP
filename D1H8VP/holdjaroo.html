@@ -9,54 +9,85 @@
 </body>
 <script>
     function holdJaro (a){
-		startDirection = 'E';
+		
 		y = [
-			1, 2, 3, 4, 5, 6, 7, 8,
+			1, 2, 3, 4, 5, 6, 7, 8
 		];
 		x = [
-			1, 2, 3, 4, 5, 6, 7, 8,
+			1, 2, 3, 4, 5, 6, 7, 8
 		];
+    d = [
+      'N', 'E', 'S', 'W'
+    ];
 		positionX = x[0];
-		calc = Math.floor(a.length / 8);
-		if(a.charAt(0) == 'f'){
-			positionX += a.length-(8*calc);
+    direction = d[0];
+    positionY = y[0];
+    if(a.charAt(0) == 'f'){
+      const fCount = (a.match(/f/g) || []).length;
+      const index = (fCount % x.length);
+      positionX = x[index]
 		}
-		else if(a.charAt(0) == 'b'){
-			positionX -= a.length-8;
+    if(a.charAt(0) == 'b'){
+      const bCount = (a.match(/b/g) || []).length;
+      const index = (x.length - bCount % x.length) % x.length;
+      positionX = x[index];
 		}
-		return ('x: ' + positionX + ' y: 1 D: E' );
+    if(a.charAt(0) == 'l'){
+      const lCount = (a.match(/l/g) || []).length;
+      const index = (d.length - lCount % d.length) % d.length;
+      direction = d[index];
+    }
+		return ('x: ' + positionX + ' y: ' + y[0] + ' D: ' + direction );
     };
   QUnit.module('holdJaro', function() {
     QUnit.test('elore', function(assert) {
-      assert.equal(holdJaro("f"), 'x: 2 y: 1 D: E');
+      assert.equal(holdJaro("f"), 'x: 2 y: 1 D: N');
     });
 	QUnit.test('elore2x', function(assert) {
-      assert.equal(holdJaro("ff"), 'x: 3 y: 1 D: E');
+      assert.equal(holdJaro("ff"), 'x: 3 y: 1 D: N');
     });
 	QUnit.test('elore3x', function(assert) {
-      assert.equal(holdJaro("fff"), 'x: 4 y: 1 D: E');
+      assert.equal(holdJaro("fff"), 'x: 4 y: 1 D: N');
     });
 	QUnit.test('elore7x', function(assert) {
-      assert.equal(holdJaro("fffffff"), 'x: 8 y: 1 D: E');
+      assert.equal(holdJaro("fffffff"), 'x: 8 y: 1 D: N');
     });
 	QUnit.test('elore8x', function(assert) {
-      assert.equal(holdJaro("ffffffff"), 'x: 1 y: 1 D: E');
+      assert.equal(holdJaro("ffffffff"), 'x: 1 y: 1 D: N');
     });
 	QUnit.test('elore10x', function(assert) {
-      assert.equal(holdJaro("ffffffffff"), 'x: 3 y: 1 D: E');
+      assert.equal(holdJaro("ffffffffff"), 'x: 3 y: 1 D: N');
     });
 	QUnit.test('elore19x', function(assert) {
-      assert.equal(holdJaro("fffffffffffffffffff"), 'x: 4 y: 1 D: E');
+      assert.equal(holdJaro("fffffffffffffffffff"), 'x: 4 y: 1 D: N');
     });
 	QUnit.test('hatra', function(assert) {
-      assert.equal(holdJaro("b"), 'x: 8 y: 1 D: E');
+      assert.equal(holdJaro("b"), 'x: 8 y: 1 D: N');
     });
-	QUnit.test('hatra2', function(assert) {
-      assert.equal(holdJaro("bb"), 'x: 7 y: 1 D: E');
+	QUnit.test('hatra2x', function(assert) {
+      assert.equal(holdJaro("bb"), 'x: 7 y: 1 D: N');
     });
-	QUnit.test('hatra8', function(assert) {
-      assert.equal(holdJaro("bbbbbbbb"), 'x: 1 y: 1 D: E');
+  QUnit.test('hatra3x', function(assert) {
+      assert.equal(holdJaro("bbb"), 'x: 6 y: 1 D: N');
     });
+	QUnit.test('hatra8x', function(assert) {
+      assert.equal(holdJaro("bbbbbbbb"), 'x: 1 y: 1 D: N');
+    });
+  QUnit.test('hatra16x', function(assert) {
+      assert.equal(holdJaro("bbbbbbbbbbbbbbbb"), 'x: 1 y: 1 D: N');
+  });
+  QUnit.test('hatra19x', function(assert) {
+      assert.equal(holdJaro("bbbbbbbbbbbbbbbbbbb"), 'x: 6 y: 1 D: N');
+  });
+  QUnit.test('balra 1x', function(assert) {
+      assert.equal(holdJaro("l"), 'x: 1 y: 1 D: W');
+  });
+  QUnit.test('balra 2x', function(assert) {
+      assert.equal(holdJaro("ll"), 'x: 1 y: 1 D: S');
+  });
+  QUnit.test('balra 8x', function(assert) {
+      assert.equal(holdJaro("llllllll"), 'x: 1 y: 1 D: N');
+  });
 
   });
 </script>
