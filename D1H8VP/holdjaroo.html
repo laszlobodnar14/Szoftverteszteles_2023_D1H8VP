@@ -18,11 +18,12 @@
 		];
 		positionX = x[0];
 		calc = Math.floor(a.length / 8);
-
-		
-
-		positionX += a.length-(8*calc);
-
+		if(a.charAt(0) == 'f'){
+			positionX += a.length-(8*calc);
+		}
+		else if(a.charAt(0) == 'b'){
+			positionX -= a.length-8;
+		}
 		return ('x: ' + positionX + ' y: 1 D: E' );
     };
   QUnit.module('holdJaro', function() {
@@ -44,8 +45,17 @@
 	QUnit.test('elore10x', function(assert) {
       assert.equal(holdJaro("ffffffffff"), 'x: 3 y: 1 D: E');
     });
-	QUnit.test('eloore19x', function(assert) {
+	QUnit.test('elore19x', function(assert) {
       assert.equal(holdJaro("fffffffffffffffffff"), 'x: 4 y: 1 D: E');
+    });
+	QUnit.test('hatra', function(assert) {
+      assert.equal(holdJaro("b"), 'x: 8 y: 1 D: E');
+    });
+	QUnit.test('hatra2', function(assert) {
+      assert.equal(holdJaro("bb"), 'x: 7 y: 1 D: E');
+    });
+	QUnit.test('hatra8', function(assert) {
+      assert.equal(holdJaro("bbbbbbbb"), 'x: 1 y: 1 D: E');
     });
 
   });
